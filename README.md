@@ -1,3 +1,3 @@
 # callback_shell
 
-inverted shell wich bounce back once su start the server
+inverted shell which bounce once you start the server
