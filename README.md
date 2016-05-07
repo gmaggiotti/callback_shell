@@ -1,3 +1,3 @@
-# callback_shell
+# Shell Bouncer  & callback Shell Bouncer
+shell_bouncer - bounce a shell once you are conected to the specific port
 
-inverted shell which bounce once you start the server
