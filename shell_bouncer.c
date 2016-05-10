@@ -5,7 +5,7 @@
  *
  *
  * Author:      Gabriel Maggiotti
- * Email:       gmaggiott@gmail.com
+ * Email:       gmaggiotti@gmail.com
  */
 
 #include <stdio.h>
