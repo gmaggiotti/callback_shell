@@ -1,3 +1,5 @@
+*.iml
+a
+.idea*
 shell_bouncer
 a.c
-

