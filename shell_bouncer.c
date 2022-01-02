@@ -1,8 +1,7 @@
 /*
- * Bouncer shell 
+ *  Shell bouncer
  *
- * Run: ./chargen <chargen_port>
- *
+ * Run: ./shell_bouncer <port>
  *
  * Author:      Gabriel Maggiotti
  * Email:       gmaggiotti@gmail.com
@@ -16,9 +15,8 @@
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
-#include <sys/wait.h>
 #define BACKLOG	5
-#define MAX	20000	
+#define MAX	20000
 
 int
 main(int argc, char *argv[])
@@ -28,8 +26,6 @@ int i;
 int port;
 int sockfd;
 int newfd;
-int numbytes;
-char *buf;
 
 	struct sockaddr_in my_addr;
 	struct sockaddr_in their_addr;
@@ -72,7 +68,7 @@ char *buf;
 		if( (newfd=accept(sockfd,(struct sockaddr*)&their_addr,\
 			 &sin_size))== -1)
 		{
-			perror("accept");
+			perror("failed on extracting the first connection on the queue ");
 			exit(1);
 		}
 		printf("Visit number: %d\n",visit++);
