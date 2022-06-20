@@ -32,7 +32,7 @@ int newfd;
 	int sin_size;
 
 	if(argc!=2) {
-		fprintf(stderr,"usage: %s <chargen_port>\n",argv[0]);
+		fprintf(stderr,"usage: %s <port>\n",argv[0]);
 		return 1;
 	}
 	port=atoi(argv[1]);
